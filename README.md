@@ -47,3 +47,32 @@ interface range fastEthernet 0/2 - 4
 interface fastEthernet 0/1
  switchport mode trunk
  switchport trunk allowed vlan 10,20,30
+
+
+
+
+
+Inter-VLAN Routing & DHCP (Router0)
+
+# Turn on the physical interface
+interface gigabitEthernet 0/0
+ no shutdown
+
+# Configure Sub-Interface for VLAN 10 (Admin)
+interface gigabitEthernet 0/0.10
+ encapsulation dot1Q 10
+ ip address 192.168.1.1 255.255.255.192
+
+# DHCP Pool Configuration for Admin
+ip dhcp excluded-address 192.168.1.1
+ip dhcp pool ADMIN_POOL
+ network 192.168.1.0 255.255.255.192
+ default-router 192.168.1.1
+
+
+Verification Commands
+
+
+Router0# show ip route connected
+Router0# show ip dhcp binding
+Switch3# show interface trunk
